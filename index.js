@@ -1,12 +1,14 @@
-function superHero(constructor) {
-  Object.defineProperty(
-    constructor.prototype,
-    'superHeroName', {
-      value: 'IronMan'
-    });
+function superHero(name) {
+  return function superHeroDecorator(constructor) {
+    Object.defineProperty(
+      constructor.prototype,
+      'superHeroName', {
+        value: name
+      });
+  };
 }
 
-@superHero
+@superHero('Doctor Strange')
 class User {
   name() {
     return "catalin";
