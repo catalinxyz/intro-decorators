@@ -8,8 +8,18 @@ function superHero(name) {
   };
 }
 
+function log(target, name, descriptor) {
+  const fn = descriptor.value;
+  descriptor.value = function (...args) {
+    const v = fn.call(target, ...args);
+    console.log(`${name}()`, v);
+    return v;
+  }
+}
+
 @superHero('Doctor Strange')
 class User {
+  @log
   name() {
     return "catalin";
   }
