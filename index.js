@@ -17,6 +17,19 @@ function log(target, name, descriptor) {
   }
 }
 
+function time(label) {
+  return function timeDecorator(target, name, descriptor) {
+    const fn = descriptor.value;
+    descriptor.value = function (...args) {
+      console.time(label);
+      const v = fn.call(target, ...args);
+      console.timeEnd(label);
+
+      return v;
+    }
+  };
+}
+
 @superHero('Doctor Strange')
 class User {
   @log
@@ -24,6 +37,7 @@ class User {
     return "catalin";
   }
 
+  @time('Calculate total price:')
   totalPrice() {
     let sum = 0;
     for (let i = 0; i < 1000000000; i++) {
